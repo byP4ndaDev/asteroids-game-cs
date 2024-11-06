@@ -8,11 +8,12 @@ namespace Asteroids.Objects
         private RectangleShape bullet;
         private float lifetime = 2f;
         private float elapsedTime = 0f;
+        private Texture spaceShipBulletTexture = new Texture(@".\images\spaceship_bullet.png");
 
         public SpaceShipBullet(Vector2f spawnPosition, float rotation)
         {
-            Size = new Vector2f(5, 15);
-            Position = spawnPosition;
+            Size = new Vector2f(150, 150);
+            Position = spawnPosition;   
             float rotationRadians = (rotation - 90f) * (float)(Math.PI / 180f);
 
             Velocity = new Vector2f(
@@ -22,7 +23,7 @@ namespace Asteroids.Objects
             bullet = new RectangleShape(Size)
             {
                 Position = spawnPosition,
-                FillColor = Color.Cyan,
+                Texture = spaceShipBulletTexture,
                 Origin = new Vector2f(Size.X / 2, Size.Y / 2),
                 Rotation = rotation
             };

@@ -3,7 +3,8 @@ using SFML.System;
 using SFML.Window;
 
 namespace Asteroids
-{    enum GameState
+{    
+    enum GameState
     {
         MainMenu,
         Game,
@@ -49,6 +50,13 @@ namespace Asteroids
 
         // SPACE SHIP BULLET
         public static float bulletSpeed { get; } = 1000f;
+        public static float bulletSpawnRate { get; } = 50f;
+        // ASTEROIDS
+        public static float asteroidSpawnRate { get; } = 80f;
+        public static float asteroidMinSpeed { get; } = 70f;
+        public static float asteroidMaxSpeed { get; } = 180f;
+        public static float asteroidSpawnRadius { get; } = 1000f;
+        public static float asteroidDespawnRadius { get; } = 1500f;
 
         // STARS
         public static float sectorSize { get; } = 1000f; // Größe eines Sektors
