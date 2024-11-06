@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Asteroids.Objects
 {
-    internal class SpaceObject
+    internal abstract class SpaceObject
     {
         public Vector2f Position { get; protected set; }
         public Vector2f Velocity { get; protected set; } = new Vector2f(0, 0);
@@ -25,6 +25,15 @@ namespace Asteroids.Objects
             //areaKinder = alleTypen.Where(kids => kids.IsAbstract);
             if (objectToDraw != null) Global.gameWindow.Draw(objectToDraw);
             else Console.WriteLine("Error: Object is not To call the Show Method from SpaceObject you need to set objectToDraw");
+        }
+        public virtual void Update(float deltaTime)
+        {
+            Position += Velocity * deltaTime;
+
+            if (objectToDraw is Transformable transformable)
+            {
+                transformable.Position = Position;
+            }
         }
 
         public void Reset()

@@ -110,7 +110,7 @@ namespace Asteroids.lib
         }
 
 
-        private static float GetDistance(Vector2f a, Vector2f b)
+        public static float GetDistance(Vector2f a, Vector2f b)
         {
             return (float)Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
         }

@@ -10,9 +10,6 @@ namespace Asteroids.Objects
 {
     internal class SpaceShip: SpaceObject
     {
-
-        //private RectangleShape spaceShip;
-        //private ConvexShape spaceShip;
         private Texture spaceShipFlyingTexture;
         private Texture spaceShipAcceleratingTexture;
         private RectangleShape spaceShip;
@@ -21,13 +18,9 @@ namespace Asteroids.Objects
         private Vector2f currentPosition;
         private List<SpaceShipBullet> _spaceShipbullets = new List<SpaceShipBullet>();
         private List<SpaceShipTrail> _spaceShipTrails = new List<SpaceShipTrail>();
+        // ASTEROIDS SOLLEN AUF DAS RAUMSCHIFF ZUFLIEGEN
         public SpaceShip()
         {
-            //spaceShip = new ConvexShape(3);
-            //spaceShip.SetPoint(0, new Vector2f(0, -15)); // Spitze des Dreiecks
-            //spaceShip.SetPoint(1, new Vector2f(-10, 10)); // Linke Ecke
-            //spaceShip.SetPoint(2, new Vector2f(10, 10));  // Rechte Ecke
-
             spaceShipFlyingTexture = new Texture(@".\images\spaceship.png");
             spaceShipAcceleratingTexture = new Texture(@".\images\spaceship_flame.png");
             spaceShip = new RectangleShape(new Vector2f(100, 100))

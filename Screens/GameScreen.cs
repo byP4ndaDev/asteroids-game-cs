@@ -11,25 +11,51 @@ namespace Asteroids.Screens
     public static class GameScreen
     {
         private static Vector2f deadZoneSize = new Vector2f(400f, 300f);
-        
-
         private static SpaceShip spaceShip = new SpaceShip();
-
+        private static int bulletSpawnRate = 0;
+        private static int asteroidSpawnRate = 0;
+        private static List<Asteroid> _asteroids = new List<Asteroid>();
 
         public static void Update(float deltaTime)
         {
+            asteroidSpawnRate++;
+            if(asteroidSpawnRate == Global.asteroidSpawnRate)
+            {
+                _asteroids.Add(Events.SpawnAsteroids(spaceShip.Position));
+                asteroidSpawnRate = 0;
+            }
+
+            foreach (var asteroid in _asteroids.ToList())
+            {
+                asteroid.Show();
+                if (GameFunctions.GetDistance(asteroid.Position, spaceShip.Position) >= Global.asteroidDespawnRadius)
+                {
+                    _asteroids.Remove(asteroid);
+                }
+                asteroid.Update(deltaTime);
+            }
+
             Vector2f acceleration = new Vector2f(0, 0);
             Keyboard.Key[] accelerationKeys = new Keyboard.Key[]
             {
                 Keyboard.Key.W,
                 Keyboard.Key.A,
                 Keyboard.Key.S,
-                Keyboard.Key.D
+                Keyboard.Key.D,
             };
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
-                spaceShip.ShootBullet();
+                bulletSpawnRate++;
+                if(bulletSpawnRate == Global.bulletSpawnRate)
+                {
+                    spaceShip.ShootBullet();
+                    bulletSpawnRate = 0;
+                }
+            } 
+            else
+            {
+                bulletSpawnRate = 0;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
@@ -61,7 +87,7 @@ namespace Asteroids.Screens
                 if (Keyboard.IsKeyPressed(key))
                 {
                     Global.isAccelerating = true;
-                    Console.WriteLine($"{key} is pressed, {Global.isAccelerating}");
+                    break;
                 }
                 else Global.isAccelerating = false;
             }
@@ -131,6 +157,7 @@ namespace Asteroids.Screens
         public static void ResetScreen()
         {
             spaceShip.Reset();
+            _asteroids.Clear();
         }
 
     }
