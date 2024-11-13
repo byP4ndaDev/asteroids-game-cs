@@ -16,7 +16,7 @@ namespace Asteroids.Objects
         private float currentRotation = 0f;
         private float targetRotation = 0f;
         private Vector2f currentPosition;
-        private List<SpaceShipBullet> _spaceShipbullets = new List<SpaceShipBullet>();
+        public List<SpaceShipBullet> _spaceShipbullets { get; private set; } = new List<SpaceShipBullet>();
         private List<SpaceShipTrail> _spaceShipTrails = new List<SpaceShipTrail>();
         // ASTEROIDS SOLLEN AUF DAS RAUMSCHIFF ZUFLIEGEN
         public SpaceShip()
@@ -135,8 +135,11 @@ namespace Asteroids.Objects
 
             SpaceShipBullet bullet = new SpaceShipBullet(spawnPosition, rotation);
             _spaceShipbullets.Add(bullet);
+        }
 
-            Console.WriteLine(_spaceShipbullets.Count());
+        public void RemoveBullet(SpaceShipBullet bullet)
+        {
+            _spaceShipbullets.Remove(bullet);
         }
     }
 

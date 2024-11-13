@@ -15,9 +15,6 @@ namespace Asteroids.Screens
             {
                 Position = Global.viewTopLeft
             };
-
-           
-            Global.currentScore++;
             scoreText.DisplayedString = Global.currentScore.ToString();
 
             GameFunctions.DrawLifes(new Vector2f(Global.viewTopLeft.X, Global.viewTopLeft.Y + 60));

@@ -23,15 +23,25 @@ namespace Asteroids.Screens
             };
 
             // "Paused"-Text erstellen und zentrieren
-            Text pauseText = new Text("Game Over", Global.font, 150)
+            Text gameOverText = new Text("Game Over", Global.font, 150)
             {
                 FillColor = Color.White,
                 OutlineColor = Color.White,
                 OutlineThickness = 0.5f
             };
-            FloatRect textBounds = pauseText.GetLocalBounds();
-            pauseText.Origin = UiFunctions.CenterOrigin(textBounds);
-            pauseText.Position = Global.viewCenter - new Vector2f(0, 300);
+            Text scoreText = new Text("Score: " + Global.currentScore, Global.font, 40)
+            {
+                FillColor = Color.White,
+                OutlineColor = Color.White,
+                OutlineThickness = 0.5f
+            };
+            FloatRect textBounds = gameOverText.GetLocalBounds();
+            gameOverText.Origin = UiFunctions.CenterOrigin(textBounds);
+            gameOverText.Position = Global.viewCenter - new Vector2f(0, 300);
+
+            textBounds = scoreText.GetLocalBounds();
+            scoreText.Origin = UiFunctions.CenterOrigin(textBounds);
+            scoreText.Position = Global.viewCenter - new Vector2f(0, 120);
 
             // Button-Größe und Positionen
             Vector2f buttonSize = new Vector2f(400, 100);
@@ -117,7 +127,8 @@ namespace Asteroids.Screens
 
             // Elemente zeichnen
             Global.gameWindow.Draw(pauseOverlay);
-            Global.gameWindow.Draw(pauseText);
+            Global.gameWindow.Draw(gameOverText);
+            Global.gameWindow.Draw(scoreText);
             Global.gameWindow.Draw(restartButtonBackground);
             Global.gameWindow.Draw(restartButtonText);
             Global.gameWindow.Draw(exitButtonBackground);

@@ -15,6 +15,7 @@ namespace Asteroids.Objects
         private Texture mediumAsteroidTexture = new Texture(@".\images\astroid2.png");
         private Texture smallAsteroidTexture = new Texture(@".\images\astroid1.png");
         private int currentLife = 0;
+        public int asteroidPoints { get; private set; } = 0;
 
         public Asteroid(Vector2f spawnPosition, float rotation, int startLife)
         {
@@ -26,14 +27,17 @@ namespace Asteroids.Objects
                 case 3:
                     spawnTexture = bigAsteroidTexture;
                     size = new Vector2f(130, 130);
+                    asteroidPoints = 45;
                     break;
                 case 2:
                     spawnTexture = mediumAsteroidTexture;
                     size = new Vector2f(100, 100);
+                    asteroidPoints = 30;
                     break;
                 case 1:
                     spawnTexture = smallAsteroidTexture;
                     size = new Vector2f(100, 100);
+                    asteroidPoints = 15;
                     break;
                 default:
                     break;
@@ -60,6 +64,46 @@ namespace Asteroids.Objects
         {
             base.Update(deltaTime);
             asteroid.Position = Position;
+        }
+
+        public bool SetLifesAndCheckIfAlive()
+        {
+            currentLife--;
+            if (currentLife <= 0) return true;
+            return false;
+        }
+
+        public bool IsInAsteroid(Vector2f position)
+        {
+            // Berechne die Position relativ zum Ursprung des Rechtecks (Asteroid)
+            Vector2f localPosition = position - asteroid.Position;
+
+            // Drehe die Position relativ zur Rotation des Asteroiden
+            float angleInRadians = -MathF.PI * asteroid.Rotation / 180f;
+            float cosTheta = MathF.Cos(angleInRadians);
+            float sinTheta = MathF.Sin(angleInRadians);
+
+            // Rotiere den Punkt
+            float rotatedX = localPosition.X * cosTheta - localPosition.Y * sinTheta;
+            float rotatedY = localPosition.X * sinTheta + localPosition.Y * cosTheta;
+
+            // Überprüfe, ob der Punkt innerhalb des Rechtecks liegt
+            // Das Rechteck ist zentriert, also müssen wir die halben Größen des Rechtecks verwenden
+            float halfWidth = Size.X / 2f;
+            float halfHeight = Size.Y / 2f;
+
+            if (MathF.Abs(rotatedX) <= halfWidth && MathF.Abs(rotatedY) <= halfHeight)
+            {
+                // Punkt liegt innerhalb des Asteroiden
+                Console.WriteLine("Position is inside the asteroid.");
+                return true;
+            }
+            else
+            {
+                // Punkt liegt außerhalb des Asteroiden
+                Console.WriteLine("Position is outside the asteroid.");
+                return false;
+            }
         }
     }
 }

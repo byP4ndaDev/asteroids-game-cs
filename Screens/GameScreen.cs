@@ -33,6 +33,23 @@ namespace Asteroids.Screens
                     _asteroids.Remove(asteroid);
                 }
                 asteroid.Update(deltaTime);
+                if(asteroid.IsInAsteroid(spaceShip.Position))
+                {
+                    _asteroids.Remove(asteroid);
+                    Global.currentLifes--;
+                }
+                foreach(var bullet in spaceShip._spaceShipbullets.ToList())
+                {
+                    if(asteroid.IsInAsteroid(bullet.Position))
+                    {
+                        spaceShip.RemoveBullet(bullet);
+                        if (asteroid.SetLifesAndCheckIfAlive())
+                        {
+                            Global.currentScore += asteroid.asteroidPoints;
+                            _asteroids.Remove(asteroid);
+                        }
+                    }
+                }
             }
 
             Vector2f acceleration = new Vector2f(0, 0);
@@ -47,14 +64,15 @@ namespace Asteroids.Screens
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
                 bulletSpawnRate++;
-                if(bulletSpawnRate == Global.bulletSpawnRate)
+                if(bulletSpawnRate == 1 || bulletSpawnRate == Global.bulletSpawnRate)
                 {
                     spaceShip.ShootBullet();
-                    bulletSpawnRate = 0;
+                    bulletSpawnRate = 1;
                 }
             } 
             else
             {
+                // FEATURE
                 bulletSpawnRate = 0;
             }
 
