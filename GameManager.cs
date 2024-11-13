@@ -16,6 +16,8 @@ namespace Asteroids
             GameScreen.ResetScreen();
             GameFunctions.ResetStarBackground();
             Global.currentGameState = GameState.Game;
+            Global.currentLifes = 3;
+            Global.currentScore = 0;
             StartTimer();
         }
 

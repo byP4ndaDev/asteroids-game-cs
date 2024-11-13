@@ -47,6 +47,11 @@ namespace Asteroids.lib
 
             return asteroid;
         }
+
+        public static void SpawnPowerUp()
+        {
+
+        }
         public static void LaserBeamEvent()
         {
 
