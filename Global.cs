@@ -45,6 +45,8 @@ namespace Asteroids
         // SPACE SHIP
         public static float accelerationAmount { get; } = 100f;
         public static float maxSpeed { get; } = 1000f;
+        public static float rotationSpeed { get; } = 180f; // Rotationsgeschwindigkeit in Grad pro Sekunde
+        public static float decelerationAmount { get; } = 200f; // Verzögerungsbetrag
         public static float cameraSpeed { get;  } = 5f;
         public static bool isAccelerating { get; set; } = false;
 
