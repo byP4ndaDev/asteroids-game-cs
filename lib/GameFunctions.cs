@@ -19,7 +19,8 @@ namespace Asteroids.lib
             RectangleShape life = new RectangleShape(new Vector2f(20, 20))
             {
                 FillColor = Color.White,
-            };
+                Texture = new Texture(@".\images\heart.png")
+        };
 
             for (int i = 0; i < Global.currentLifes; i++)
             {

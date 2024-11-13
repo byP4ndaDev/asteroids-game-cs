@@ -1,4 +1,5 @@
 ﻿using Asteroids.Objects;
+using Asteroids.Screens;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -48,9 +49,17 @@ namespace Asteroids.lib
             return asteroid;
         }
 
-        public static void SpawnPowerUp()
+        public static void SpawnPowerUp(Vector2f position)
         {
-
+            if(GameScreen._powerUps.Count < Global.maxPowerUps)
+            {
+                float chance = (float)rnd.NextDouble();
+                if (chance <= Global.powerupSpawnChance)
+                {
+                    PowerUp powerUp = new PowerUp(position);
+                    GameScreen._powerUps.Add(powerUp);
+                }
+            }
         }
         public static void LaserBeamEvent()
         {
