@@ -57,9 +57,10 @@ namespace Asteroids
         public static float asteroidMaxSpeed { get; } = 90f;
         public static float asteroidSpawnRadius { get; } = 1000f;
         public static float asteroidDespawnRadius { get; } = 1200f;
-        
-        // POWERUP
 
+        // POWERUP
+        public static float powerupSpawnChance { get; } = 0.02f;
+        public static int maxPowerUps { get; } = 3;
 
         // STARS
         public static float sectorSize { get; } = 1000f; // Größe eines Sektors

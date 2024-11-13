@@ -75,33 +75,22 @@ namespace Asteroids.Objects
 
         public bool IsInAsteroid(Vector2f position)
         {
-            // Berechne die Position relativ zum Ursprung des Rechtecks (Asteroid)
             Vector2f localPosition = position - asteroid.Position;
-
-            // Drehe die Position relativ zur Rotation des Asteroiden
             float angleInRadians = -MathF.PI * asteroid.Rotation / 180f;
             float cosTheta = MathF.Cos(angleInRadians);
             float sinTheta = MathF.Sin(angleInRadians);
-
-            // Rotiere den Punkt
             float rotatedX = localPosition.X * cosTheta - localPosition.Y * sinTheta;
             float rotatedY = localPosition.X * sinTheta + localPosition.Y * cosTheta;
 
-            // Überprüfe, ob der Punkt innerhalb des Rechtecks liegt
-            // Das Rechteck ist zentriert, also müssen wir die halben Größen des Rechtecks verwenden
             float halfWidth = Size.X / 2f;
             float halfHeight = Size.Y / 2f;
 
             if (MathF.Abs(rotatedX) <= halfWidth && MathF.Abs(rotatedY) <= halfHeight)
             {
-                // Punkt liegt innerhalb des Asteroiden
-                Console.WriteLine("Position is inside the asteroid.");
                 return true;
             }
             else
             {
-                // Punkt liegt außerhalb des Asteroiden
-                Console.WriteLine("Position is outside the asteroid.");
                 return false;
             }
         }

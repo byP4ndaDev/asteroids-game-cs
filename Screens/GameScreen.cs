@@ -8,13 +8,14 @@ using System;
 
 namespace Asteroids.Screens
 {
-    public static class GameScreen
+    internal static class GameScreen
     {
         private static Vector2f deadZoneSize = new Vector2f(400f, 300f);
         private static SpaceShip spaceShip = new SpaceShip();
         private static int bulletSpawnRate = 0;
         private static int asteroidSpawnRate = 0;
         private static List<Asteroid> _asteroids = new List<Asteroid>();
+        public static List<PowerUp> _powerUps { get; set; } = new List<PowerUp>();
 
         public static void Update(float deltaTime)
         {
@@ -46,10 +47,26 @@ namespace Asteroids.Screens
                         if (asteroid.SetLifesAndCheckIfAlive())
                         {
                             Global.currentScore += asteroid.asteroidPoints;
+                            Events.SpawnPowerUp(asteroid.Position);
                             _asteroids.Remove(asteroid);
                         }
                     }
                 }
+            }
+
+            foreach (var powerUp in _powerUps.ToList())
+            {
+                powerUp.Show();
+                if (powerUp.IsInPowerUp(spaceShip.Position))
+                {
+                    foreach (var asteroid in _asteroids.ToList())
+                    {
+                        Global.currentScore += (int)asteroid.asteroidPoints / 7;
+                        _asteroids.Remove(asteroid);
+                    }
+                    _powerUps.Remove(powerUp);
+                }
+
             }
 
             Vector2f acceleration = new Vector2f(0, 0);
