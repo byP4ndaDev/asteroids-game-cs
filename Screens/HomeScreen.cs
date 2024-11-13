@@ -10,9 +10,24 @@ using System.Threading.Tasks;
 
 namespace Asteroids.Screens
 {
-    internal static class HomeScreen
+    internal class HomeScreen : StateScreen
     {
-        public static void Show()
+        private static HomeScreen instance;
+
+        // Private Konstruktor, um zu verhindern, dass neue Instanzen von außen erstellt werden
+        private HomeScreen() { }
+
+        // Öffentliche Methode, um die einzige Instanz der Klasse zu erhalten
+        public static HomeScreen GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new HomeScreen();
+            }
+            return instance;
+        }
+
+        public override void Show()
         {
 
             // "Paused"-Text erstellen und zentrieren

@@ -11,9 +11,24 @@ using System.Threading.Tasks;
 
 namespace Asteroids.Screens
 {
-    internal static class EndScreen
+    internal class EndScreen : StateScreen
     {
-        public static void Show()
+        private static EndScreen instance;
+
+        // Private Konstruktor, um zu verhindern, dass neue Instanzen von außen erstellt werden
+        private EndScreen() { }
+
+        // Öffentliche Methode, um die einzige Instanz der Klasse zu erhalten
+        public static EndScreen GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new EndScreen();
+            }
+            return instance;
+        }
+
+        public override void Show()
         {
 
             RectangleShape pauseOverlay = new RectangleShape(Global.viewSize)
