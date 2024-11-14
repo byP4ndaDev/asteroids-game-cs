@@ -32,10 +32,8 @@ namespace Asteroids.Objects
             spaceShip.Origin = new Vector2f(50, 50);
             objectToDraw = spaceShip;
         }
-
         public void Update(float deltaTime)
         {
-
             spaceShip.Texture = Global.isAccelerating ? spaceShipAcceleratingTexture : spaceShipFlyingTexture;
 
             for (int i = _spaceShipbullets.Count - 1; i >= 0; i--)
@@ -57,7 +55,6 @@ namespace Asteroids.Objects
                 }
             }
 
-
             // Position aktualisieren
             Position += Velocity * deltaTime;
             spaceShip.Position = Position;
@@ -65,53 +62,75 @@ namespace Asteroids.Objects
             // Reibung anwenden
             float friction = 0.9f;
             Velocity *= (float)Math.Pow(friction, deltaTime);
-            if (Velocity.X > Global.maxSpeed) Velocity = new Vector2f(Global.maxSpeed, Velocity.Y);
-            if (Velocity.X < -Global.maxSpeed) Velocity = new Vector2f(-Global.maxSpeed, Velocity.Y);
-            if (Velocity.Y > Global.maxSpeed) Velocity = new Vector2f(Velocity.X, Global.maxSpeed);
-            if (Velocity.Y < -Global.maxSpeed) Velocity = new Vector2f(Velocity.X, -Global.maxSpeed);
 
-            // Sanft zur Zielrotation drehen
-            float rotationSpeed = 180f; // Maximale Rotationsgeschwindigkeit in Grad pro Sekunde
-            float angleDifference = targetRotation - currentRotation;
+            // Geschwindigkeit begrenzen
+            float speed = (float)Math.Sqrt(Velocity.X * Velocity.X + Velocity.Y * Velocity.Y);
+            if (speed > Global.maxSpeed)
+            {
+                Velocity = (Velocity / speed) * Global.maxSpeed;
+            }
 
-            // Winkelunterschied auf [-180°, 180°] normalisieren
-            if (angleDifference > 180f)
-                angleDifference -= 360f;
-            else if (angleDifference < -180f)
-                angleDifference += 360f;
+            // Aktualisiere Geschoss- und Trail-Objekte
+            for (int i = _spaceShipbullets.Count - 1; i >= 0; i--)
+            {
+                _spaceShipbullets[i].Update(deltaTime);
 
-            // Maximale Rotation für diesen Frame berechnen
-            float maxRotationThisFrame = rotationSpeed * deltaTime;
+                if (_spaceShipbullets[i].IsExpired())
+                {
+                    _spaceShipbullets.RemoveAt(i);
+                }
+            }
+            for (int i = _spaceShipTrails.Count - 1; i >= 0; i--)
+            {
+                _spaceShipTrails[i].Update(deltaTime);
+                if (_spaceShipTrails[i].IsExpired())
+                {
+                    _spaceShipTrails.RemoveAt(i);
+                }
+            }
 
-            // Tatsächliche Rotation für diesen Frame
-            float rotationThisFrame = Math.Max(-maxRotationThisFrame, Math.Min(angleDifference, maxRotationThisFrame));
-
-            currentRotation += rotationThisFrame;
-
-            // Rotation setzen
-            spaceShip.Rotation = currentRotation;
-            currentPosition = spaceShip.Position;
-
-            foreach(var trail in _spaceShipTrails)
+            // Grafiken anzeigen
+            foreach (var trail in _spaceShipTrails)
             {
                 trail.Show();
             }
-            foreach(var bullet in _spaceShipbullets)
+            foreach (var bullet in _spaceShipbullets)
             {
                 bullet.Show();
             }
+
+            currentPosition = spaceShip.Position;
+        }
+
+        public void Rotate(float angle)
+        {
+            currentRotation += angle;
+            spaceShip.Rotation = currentRotation;
+        }
+        public Vector2f GetForwardVector()
+        {
+            // Konvertiere die Rotation in Radianten
+            float rotationRadians = (currentRotation - 90f) * (float)(Math.PI / 180f);
+
+            // Berechne den Vorwärtsvektor basierend auf der aktuellen Rotation
+            return new Vector2f((float)Math.Cos(rotationRadians), (float)Math.Sin(rotationRadians));
         }
 
 
         public void Accelerate(Vector2f acceleration, float deltaTime)
         {
             Velocity += acceleration * deltaTime;
-            Vector2f spawnPosition = GetPosition();
-            float rotation = GetRotation();
 
-            SpaceShipTrail trail = new SpaceShipTrail(spawnPosition, rotation);
-            _spaceShipTrails.Add(trail);
+            if (Global.isAccelerating)
+            {
+                Vector2f spawnPosition = GetPosition();
+                float rotation = GetRotation();
+
+                SpaceShipTrail trail = new SpaceShipTrail(spawnPosition, rotation);
+                _spaceShipTrails.Add(trail);
+            }
         }
+
 
         public void SetRotation(float angle)
         {

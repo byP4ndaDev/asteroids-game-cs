@@ -70,13 +70,6 @@ namespace Asteroids.Screens
             }
 
             Vector2f acceleration = new Vector2f(0, 0);
-            Keyboard.Key[] accelerationKeys = new Keyboard.Key[]
-            {
-                Keyboard.Key.W,
-                Keyboard.Key.A,
-                Keyboard.Key.S,
-                Keyboard.Key.D,
-            };
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
@@ -92,40 +85,33 @@ namespace Asteroids.Screens
                 // FEATURE
                 bulletSpawnRate = 0;
             }
+            float rotationInput = 0f;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
-            {
-                acceleration.Y -= Global.accelerationAmount;
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
-            {
-                acceleration.Y += Global.accelerationAmount;
-            }
+            // Rotation steuern
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                acceleration.X -= Global.accelerationAmount;
+                rotationInput -= 1f; // Nach links drehen
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                acceleration.X += Global.accelerationAmount;
+                rotationInput += 1f; // Nach rechts drehen
             }
 
-            if (acceleration != new Vector2f(0, 0))
+            // Beschleunigung in Blickrichtung
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
-                // Winkel aus dem Beschleunigungsvektor berechnen
-                float angle = (float)(Math.Atan2(acceleration.Y, acceleration.X) * 180 / Math.PI);
-                spaceShip.SetRotation(angle + 90f); // +90°, falls nötig
+                acceleration = spaceShip.GetForwardVector() * Global.accelerationAmount;
+                Global.isAccelerating = true;
+            }
+            else
+            {
+                Global.isAccelerating = false;
             }
 
-            foreach(Keyboard.Key key in accelerationKeys)
-            {
-                if (Keyboard.IsKeyPressed(key))
-                {
-                    Global.isAccelerating = true;
-                    break;
-                }
-                else Global.isAccelerating = false;
-            }
+            spaceShip.Rotate(rotationInput * Global.rotationSpeed * deltaTime);
+
+            // Beschleunigung anwenden
+            spaceShip.Accelerate(acceleration, deltaTime);
             spaceShip.Accelerate(acceleration, deltaTime);
             spaceShip.Update(deltaTime);
             UpdateCameraPosition(deltaTime);
