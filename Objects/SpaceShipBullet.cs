@@ -10,7 +10,7 @@ namespace Asteroids.Objects
         private float elapsedTime = 0f;
         private Texture spaceShipBulletTexture = new Texture(@".\images\spaceship_bullet.png");
 
-        public SpaceShipBullet(Vector2f spawnPosition, float rotation)
+        public SpaceShipBullet(Vector2f spawnPosition, float rotation) : base(spawnPosition)
         {
             Size = new Vector2f(150, 150);
             Position = spawnPosition;   

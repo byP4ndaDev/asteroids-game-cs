@@ -19,7 +19,7 @@ namespace Asteroids.Objects
         public List<SpaceShipBullet> _spaceShipbullets { get; private set; } = new List<SpaceShipBullet>();
         private List<SpaceShipTrail> _spaceShipTrails = new List<SpaceShipTrail>();
         // ASTEROIDS SOLLEN AUF DAS RAUMSCHIFF ZUFLIEGEN
-        public SpaceShip()
+        public SpaceShip(Vector2f position) : base(position)
         {
             spaceShipFlyingTexture = new Texture(@".\images\spaceship.png");
             spaceShipAcceleratingTexture = new Texture(@".\images\spaceship_flame.png");
@@ -27,7 +27,6 @@ namespace Asteroids.Objects
             {
                 Texture = spaceShipFlyingTexture,
             };
-            Position = Global.gameView.Center;
             spaceShip.Position = Position;
             spaceShip.Origin = new Vector2f(50, 50);
             objectToDraw = spaceShip;

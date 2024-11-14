@@ -17,7 +17,7 @@ namespace Asteroids.Objects
         private int currentLife = 0;
         public int asteroidPoints { get; private set; } = 0;
 
-        public Asteroid(Vector2f spawnPosition, float rotation, int startLife)
+        public Asteroid(Vector2f spawnPosition, float rotation, int startLife) : base(spawnPosition)
         {
             currentLife = startLife;
             Texture spawnTexture = null;
@@ -43,7 +43,7 @@ namespace Asteroids.Objects
                     break;
             }
             Size = size;
-            Position = spawnPosition;
+
             asteroid = new RectangleShape(Size)
             {
                 Position = spawnPosition,

@@ -9,10 +9,9 @@ namespace Asteroids.Objects
         private float lifetime = 1f;
         private float elapsedTime = 0f;
 
-        public SpaceShipTrail(Vector2f spawnPosition, float rotation)
+        public SpaceShipTrail(Vector2f spawnPosition, float rotation) : base(spawnPosition)
         {
             Size = new Vector2f(5, 15);
-            Position = spawnPosition;
             bullet = new RectangleShape(Size)
             {
                 Position = spawnPosition,

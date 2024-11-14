@@ -11,7 +11,7 @@ namespace Asteroids.Screens
     internal static class GameScreen
     {
         private static Vector2f deadZoneSize = new Vector2f(400f, 300f);
-        private static SpaceShip spaceShip = new SpaceShip();
+        private static SpaceShip spaceShip = new SpaceShip(Global.gameView.Center);
         private static int bulletSpawnRate = 0;
         private static int asteroidSpawnRate = 0;
         private static List<Asteroid> _asteroids = new List<Asteroid>();
@@ -46,7 +46,7 @@ namespace Asteroids.Screens
                         spaceShip.RemoveBullet(bullet);
                         if (asteroid.SetLifesAndCheckIfAlive())
                         {
-                            Global.currentScore += asteroid.asteroidPoints;
+                            if (Global.currentGameState == GameState.Game) Global.currentScore += asteroid.asteroidPoints;
                             Events.SpawnPowerUp(asteroid.Position);
                             _asteroids.Remove(asteroid);
                         }
@@ -61,7 +61,7 @@ namespace Asteroids.Screens
                 {
                     foreach (var asteroid in _asteroids.ToList())
                     {
-                        Global.currentScore += (int)asteroid.asteroidPoints / 7;
+                        if(Global.currentGameState == GameState.Game) Global.currentScore += (int)asteroid.asteroidPoints / 7;
                         _asteroids.Remove(asteroid);
                     }
                     _powerUps.Remove(powerUp);
