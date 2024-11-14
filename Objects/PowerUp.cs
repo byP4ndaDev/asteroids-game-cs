@@ -13,9 +13,8 @@ namespace Asteroids.Objects
         private RectangleShape powerUp;
         private Texture powerUpTexture = new Texture(@".\images\PowerUp.png");
 
-        public PowerUp(Vector2f spawnPosition)
+        public PowerUp(Vector2f spawnPosition) : base(spawnPosition)
         {
-            Position = spawnPosition;
             powerUp = new RectangleShape(new Vector2f(70, 70))
             {
                 Position = spawnPosition,

@@ -61,7 +61,7 @@ namespace Asteroids
         public static float asteroidDespawnRadius { get; } = 1200f;
 
         // POWERUP
-        public static float powerupSpawnChance { get; } = 0.02f;
+        public static float powerupSpawnChance { get; } = 0.05f;
         public static int maxPowerUps { get; } = 3;
 
         // STARS

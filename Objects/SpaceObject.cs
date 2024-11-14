@@ -17,6 +17,11 @@ namespace Asteroids.Objects
 
         public Vector2f Size { get; protected set; }
 
+        public SpaceObject(Vector2f postion)
+        {
+            Position = postion;
+        }
+
         public virtual void Show()
         {
             //IEnumerable<Type> alleTypen;
