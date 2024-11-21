@@ -59,7 +59,7 @@ namespace Asteroids
 
                 if (Global.currentGameState == GameState.MainMenu)
                 {
-                    HomeScreen.Show();
+                    HomeScreen.GetInstance().Show();
                 }
                 if (Global.currentGameState == GameState.Game || Global.currentGameState == GameState.Paused || Global.currentGameState == GameState.End)
                 {
@@ -68,11 +68,11 @@ namespace Asteroids
                 }
                 if (Global.currentGameState == GameState.Paused)
                 {
-                    PauseScreen.Show();
+                    PauseScreen.GetInstance().Show();
                 }
                 if (Global.currentGameState == GameState.End)
                 {
-                    EndScreen.Show();
+                    EndScreen.GetInstance().Show();
                 }
 
                 Global.gameWindow.Display();
