@@ -179,6 +179,7 @@ namespace Asteroids.Screens
         {
             spaceShip.Reset();
             _asteroids.Clear();
+            _powerUps.Clear();
         }
 
     }
